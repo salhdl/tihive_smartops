@@ -1,0 +1,9 @@
+humidity:
+  min: 9
+  max: 11
+density:
+  min: 0.45
+  max: 0.5
+thickness:
+  min: 1.8
+  max: 2.0

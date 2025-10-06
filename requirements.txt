@@ -1,0 +1,26 @@
+# Core environment
+python-dotenv>=1.0.1
+pandas>=2.2.2
+numpy>=1.26.4
+pyyaml>=6.0.2
+
+# Agno Framework (agents, knowledge base, tools)
+agno>=0.4.5
+
+# Google Gemini model (for LLM interaction)
+google-generativeai>=0.8.3
+
+# PostgreSQL (optional, if you plan to add database memory later)
+psycopg[binary,pool]>=3.2.1
+
+# Streamlit dashboard (optional UI interface)
+streamlit>=1.38.0
+
+# Reasoning & utility tools
+duckduckgo-search>=6.2.4
+exa-py>=1.0.8
+requests>=2.32.3
+
+# Development helpers
+ipykernel>=6.29.4
+rich>=13.7.1

@@ -1,0 +1,3 @@
+max_energy_kwh: 120
+max_waste_kg: 2.0
+target_material_efficiency: 1.2  # ratio produit/matière

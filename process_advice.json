@@ -1,0 +1,20 @@
+{
+    "recommendations": [
+        {
+            "condition": "density > 0.5 and temperature <= 180",
+            "advice": "Reduce speed by 5 percent",
+            "priority": "High"
+        },
+        {
+            "condition": "density < 0.45",
+            "advice": "Increase temperature by 3 degrees Celsius",
+            "priority": "Medium"
+        },
+                {
+            "condition": "speed > 130",
+            "advice": "Reduce speed",
+            "priority": "High"
+        }
+    ],
+    "summary": "Advised adjustments based on detected process parameters."
+}

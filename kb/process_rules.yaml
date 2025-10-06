@@ -1,0 +1,11 @@
+- condition: "density > 0.5 and temperature <= 180"
+  advice: "Réduire la vitesse de 5% pour stabiliser la densité"
+  priority: "High"
+
+- condition: "density < 0.45"
+  advice: "Augmenter la température de 3°C pour améliorer la cohésion"
+  priority: "Medium"
+
+- condition: "speed > 130"
+  advice: "Risque de tension sur la bande, réduire la vitesse"
+  priority: "High"

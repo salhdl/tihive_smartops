@@ -1,0 +1,33 @@
+{
+    "batch_reports": [
+        {
+            "batch_id": "31",
+            "status": "Compliant",
+            "violations": [],
+            "summary": "Batch 31 compliant"
+        },
+        {
+            "batch_id": "32",
+            "status": "Non-compliant",
+            "violations": [
+                "Humidity out of range (11.3 > 11)",
+                "Density out of range (0.52 > 0.5)",
+                "Thickness out of range (2.1 > 2.0)"
+            ],
+            "summary": "Batch 32 exceeds humidity, density and thickness tolerance"
+        },
+        {
+            "batch_id": "33",
+            "status": "Compliant",
+            "violations": [],
+            "summary": "Batch 33 compliant"
+        },
+        {
+            "batch_id": "34",
+            "status": "Compliant",
+            "violations": [],
+            "summary": "Batch 34 compliant"
+        }
+    ],
+    "overall_summary": "1 out of 4 batches non-compliant due to humidity, density and thickness excess."
+}
