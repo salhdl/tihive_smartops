@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
+  <title>TiHive SmartOps — AI Ops Dashboard</title>
+  <meta name="description" content="Dashboard IA industriel : Qualité, Procédé, Maintenance, Environnement"/>
+  <link rel="stylesheet" href="/static/style.css"/>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64'%3E%3Ctext y='50%25' x='50%25' dominant-baseline='middle' text-anchor='middle' font-size='48'%3E%F0%9F%A7%A0%3C/text%3E%3C/svg%3E"/>
+  <!-- Charts -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <!-- SIDEBAR -->
+  <aside class="sidebar" aria-label="Navigation principale">
+    <div class="brand" aria-label="Marque">
+      <div class="logo" aria-hidden="true">🧠</div>
+      <div class="title">
+        <h1>TiHive SmartOps</h1>
+        <small>AI Ops Suite</small>
+      </div>
+    </div>
+
+    <nav class="nav" role="navigation">
+      <a href="#overview" class="active">Aperçu</a>
+      <a href="#quality">Qualité</a>
+      <a href="#process">Procédé</a>
+      <a href="#maintenance">Maintenance</a>
+      <a href="#eco">Environnement</a>
+      <a href="#history">Historique</a>
+    </nav>
+
+    <div class="footer">
+      <button id="themeToggle" class="ghost" type="button" aria-label="Basculer thème">🌗 Thème</button>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main" role="main">
+    <!-- TOPBAR -->
+    <header class="topbar">
+      <h2 id="sectionTitle">Aperçu</h2>
+      <div class="actions" aria-label="Statut">
+        <span class="badge" id="modelBadge" title="Modèle IA utilisé">Model: gemini-2.5-flash</span>
+        <span class="badge ok" id="apiStatus" title="Statut API">API: OK</span>
+      </div>
+    </header>
+
+    <!-- OVERVIEW -->
+    <section id="overview" class="panel active" aria-labelledby="sectionTitle">
+      <div class="kpi-grid" aria-label="Indicateurs clés">
+        <div class="kpi" role="group" aria-label="Qualité">
+          <div class="kpi-top">
+            <span>🧪 Qualité</span>
+            <b id="kpiQualityScore">–</b>
+          </div>
+          <small id="kpiQualityNote">aucune exécution récente</small>
+        </div>
+
+        <div class="kpi" role="group" aria-label="Procédé">
+          <div class="kpi-top">
+            <span>⚙️ Procédé</span>
+            <b id="kpiProcessScore">–</b>
+          </div>
+          <small id="kpiProcessNote">aucune exécution récente</small>
+        </div>
+
+        <div class="kpi" role="group" aria-label="Maintenance">
+          <div class="kpi-top">
+            <span>🔧 Maintenance</span>
+            <b id="kpiMaintAlerts">–</b>
+          </div>
+          <small id="kpiMaintNote">aucune exécution récente</small>
+        </div>
+
+        <div class="kpi" role="group" aria-label="Environnement">
+          <div class="kpi-top">
+            <span>🌱 Environnement</span>
+            <b id="kpiEcoScore">–</b>
+          </div>
+          <small id="kpiEcoNote">aucune exécution récente</small>
+        </div>
+      </div>
+
+      <div class="cards two">
+        <div class="card">
+          <h3>Derniers rapports</h3>
+          <div id="snapshotList" class="list" aria-live="polite"></div>
+        </div>
+
+        <div class="card">
+          <h3>Exécuter tous les agents</h3>
+          <p>Lancement séquentiel des 4 agents avec les données par défaut (limite de quota évitée).</p>
+          <button class="primary" id="btnRunAll" type="button">Lancer</button>
+          <pre class="output" id="outAll" aria-live="polite"></pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- QUALITY -->
+    <section id="quality" class="panel" aria-label="Agent Qualité">
+      <div class="card">
+        <div class="card-title">
+          <h3>🧪 Quality Reasoner</h3>
+          <span id="statusQuality" class="status">idle</span>
+        </div>
+
+        <form id="form-quality" class="form" enctype="multipart/form-data" aria-label="Formulaire Qualité">
+          <label class="file" title="Déposer un fichier CSV">
+            <input type="file" name="file" accept=".csv" aria-label="Fichier CSV qualité"/>
+            <span>Choisir un CSV ou déposer ici</span>
+          </label>
+          <textarea name="prompt" rows="2" placeholder="Prompt personnalisé (optionnel)" aria-label="Prompt"></textarea>
+          <button type="submit" class="primary">Exécuter Qualité</button>
+        </form>
+
+        <div id="qualityKPIs" class="mini-kpis" aria-label="KPIs Qualité"></div>
+
+        <details open>
+          <summary>Dernier rapport</summary>
+          <pre id="out-quality" class="output"></pre>
+        </details>
+
+        <!-- Visualisations -->
+        <div class="viz" aria-label="Visualisation Qualité">
+          <div class="viz-tables" id="tbl-quality"></div>
+          <div class="viz-charts" id="chr-quality"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROCESS -->
+    <section id="process" class="panel" aria-label="Agent Procédé">
+      <div class="card">
+        <div class="card-title">
+          <h3>⚙️ Process Advisor</h3>
+          <span id="statusProcess" class="status">idle</span>
+        </div>
+
+        <form id="form-process" class="form" enctype="multipart/form-data" aria-label="Formulaire Procédé">
+          <label class="file" title="Déposer un fichier CSV">
+            <input type="file" name="file" accept=".csv" aria-label="Fichier CSV procédé"/>
+            <span>Choisir un CSV ou déposer ici</span>
+          </label>
+          <textarea name="prompt" rows="2" placeholder="Prompt personnalisé (optionnel)" aria-label="Prompt"></textarea>
+          <button type="submit" class="primary">Exécuter Procédé</button>
+        </form>
+
+        <div id="processKPIs" class="mini-kpis" aria-label="KPIs Procédé"></div>
+
+        <details open>
+          <summary>Dernier rapport</summary>
+          <pre id="out-process" class="output"></pre>
+        </details>
+
+        <!-- Visualisations -->
+        <div class="viz" aria-label="Visualisation Procédé">
+          <div class="viz-tables" id="tbl-process"></div>
+          <div class="viz-charts" id="chr-process"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- MAINTENANCE -->
+    <section id="maintenance" class="panel" aria-label="Agent Maintenance">
+      <div class="card">
+        <div class="card-title">
+          <h3>🔧 Maintenance Advisor</h3>
+          <span id="statusMaint" class="status">idle</span>
+        </div>
+
+        <form id="form-maintenance" class="form" enctype="multipart/form-data" aria-label="Formulaire Maintenance">
+          <label class="file" title="Déposer un LOG/TXT">
+            <input type="file" name="file" accept=".log,.txt" aria-label="Fichier log maintenance"/>
+            <span>Choisir LOG/TXT ou déposer ici</span>
+          </label>
+          <textarea name="prompt" rows="2" placeholder="Prompt personnalisé (optionnel)" aria-label="Prompt"></textarea>
+          <button type="submit" class="primary">Exécuter Maintenance</button>
+        </form>
+
+        <div id="maintKPIs" class="mini-kpis" aria-label="KPIs Maintenance"></div>
+
+        <details open>
+          <summary>Dernier rapport</summary>
+          <pre id="out-maintenance" class="output"></pre>
+        </details>
+
+        <!-- Visualisations -->
+        <div class="viz" aria-label="Visualisation Maintenance">
+          <div class="viz-tables" id="tbl-maintenance"></div>
+          <div class="viz-charts" id="chr-maintenance"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ECO -->
+    <section id="eco" class="panel" aria-label="Agent Environnement">
+      <div class="card">
+        <div class="card-title">
+          <h3>🌱 Sustainability Insight</h3>
+          <span id="statusEco" class="status">idle</span>
+        </div>
+
+        <form id="form-eco" class="form" enctype="multipart/form-data" aria-label="Formulaire Environnement">
+          <label class="file" title="Déposer un fichier CSV">
+            <input type="file" name="file" accept=".csv" aria-label="Fichier CSV environnement"/>
+            <span>Choisir un CSV ou déposer ici</span>
+          </label>
+          <textarea name="prompt" rows="2" placeholder="Prompt personnalisé (optionnel)" aria-label="Prompt"></textarea>
+          <button type="submit" class="primary">Exécuter Environnement</button>
+        </form>
+
+        <div id="ecoKPIs" class="mini-kpis" aria-label="KPIs Environnement"></div>
+
+        <details open>
+          <summary>Dernier rapport</summary>
+          <pre id="out-eco" class="output"></pre>
+        </details>
+
+        <!-- Visualisations -->
+        <div class="viz" aria-label="Visualisation Environnement">
+          <div class="viz-tables" id="tbl-eco"></div>
+          <div class="viz-charts" id="chr-eco"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- HISTORY -->
+    <section id="history" class="panel" aria-label="Historique d’exécution">
+      <div class="card">
+        <h3>Historique d’exécution</h3>
+        <div id="historyList" class="timeline" aria-live="polite"></div>
+      </div>
+    </section>
+  </main>
+
+  <!-- APP -->
+  <script src="/static/app.js"></script>
+</body>
+</html>

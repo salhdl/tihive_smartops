@@ -1,11 +1,15 @@
-- condition: "density > 0.5 and temperature <= 180"
-  advice: "Réduire la vitesse de 5% pour stabiliser la densité"
-  priority: "High"
+thresholds:
+  speed_mpm:        { min: 80,  max: 120 }      # m/min
+  temperature_c:    { min: 175, max: 190 }      # °C
+  density_gcm3:     { min: 0.45, max: 0.50 }
 
-- condition: "density < 0.45"
-  advice: "Augmenter la température de 3°C pour améliorer la cohésion"
-  priority: "Medium"
+combos_at_risk:
+  - when:  "density_gcm3 > 0.50 and temperature_c <= 180"
+    advice: "Reduce line speed by 5% and increase temp by +3°C"
+    priority: "High"
+  - when:  "density_gcm3 < 0.45"
+    advice: "Raise temperature +2°C or slow speed −3%"
+    priority: "Medium"
 
-- condition: "speed > 130"
-  advice: "Risque de tension sur la bande, réduire la vitesse"
-  priority: "High"
+stability:
+  variance_warn_pct: 5

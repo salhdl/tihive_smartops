@@ -1,3 +1,8 @@
-max_energy_kwh: 120
-max_waste_kg: 2.0
-target_material_efficiency: 1.2  # ratio produit/matière
+energy_kwh_per_batch: { target_max: 110 }
+waste_kg_per_batch:   { target_max: 2.0 }
+co2_kg_per_batch:     { target_max: 4.0 }
+
+tips:
+  - "Optimize drying cycle (duration/temperature)"
+  - "Recover waste heat from ovens"
+  - "Reduce standby time; power-down idle modules"
