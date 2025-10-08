@@ -24,3 +24,8 @@ requests>=2.32.3
 # Development helpers
 ipykernel>=6.29.4
 rich>=13.7.1
+flask
+gunicorn
+python-dotenv
+pandas
+pyyaml
